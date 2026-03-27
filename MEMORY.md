@@ -32,15 +32,27 @@
   - Escalate tier 2+ to Gavin
 - **Notes:** Sole proprietor model, minimal startup cost (~$15 for domain, rest free)
 
-### 2. Next-Chapter (Dating App for Single Parents) — SECONDARY PROJECT
-- **Status:** Planning only (start after TechZen launch)
+### 2. Next-Chapter (Dating App for Single Parents) — IN DEVELOPMENT
+- **Status:** Active development started March 27, 2026
 - **Goal:** Ad-free dating app for single parents at $5.99/month
-- **Timeline:** Q2-Q3 2026 (est.)
-- **Why it matters:** Underserved niche, lower competition, genuine value for time-constrained users
-- **Monetization:** Premium subscription model, zero ads
-- **Tech approach:** Help Gavin build custom (React/Node stack, Supabase)
-- **Key insight:** Single parents value affordability + simplicity — this is the differentiator
-- **Reminder:** Revisit after TechZen launch to assess time/capacity
+- **GitHub:** dadjokes-84/next-chapter
+- **Pricing:** $5.99/month premium (unlimited messaging, zero ads) or free with 10 msgs/day
+- **Geographic Start:** Illinois only (test market)
+- **Tech Stack:**
+  - Frontend: React + Vite + TailwindCSS
+  - Backend: Node.js + Express
+  - Database: PostgreSQL (Supabase)
+  - Payments: Stripe
+  - Hosting: Vercel
+- **MVP Scope:**
+  - User auth + selfie verification required
+  - Swipe/matching with age/distance filters
+  - Messaging with daily limits (free tier)
+  - Stripe subscription flow
+  - NO: video chat, community features, complex matching (v1.1+)
+- **Development Timeline:** 8 weeks to MVP launch (Q2 2026)
+- **Key Insight:** Single parents want affordability (4-5x cheaper than Stir), simplicity, zero ads
+- **Market Research:** Competitors charge $20-30/month; #1 complaint = "too expensive"
 
 ---
 
