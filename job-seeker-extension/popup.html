@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobClaw</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <div class="header-brand">
+      <span class="header-logo">🦞</span>
+      <div>
+        <div class="header-title">JobClaw</div>
+        <div class="header-subtitle">Job Application Assistant</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" id="btn-settings" title="Settings">⚙️</button>
+    </div>
+  </div>
+
+  <!-- ===== NAV TABS ===== -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="autofill">
+      <span class="tab-icon">⚡</span>
+      Autofill
+    </button>
+    <button class="nav-tab" data-tab="tracker">
+      <span class="tab-icon">📋</span>
+      Tracker
+    </button>
+    <button class="nav-tab" data-tab="snippets">
+      <span class="tab-icon">📝</span>
+      Snippets
+    </button>
+    <button class="nav-tab" data-tab="profile">
+      <span class="tab-icon">👤</span>
+      Profile
+    </button>
+  </div>
+
+  <!-- ===== CONTENT ===== -->
+  <div class="content">
+
+    <!-- ============================
+         TAB: AUTOFILL
+         ============================ -->
+    <div class="tab-panel active" id="tab-autofill">
+
+      <div id="autofill-no-profile" class="hidden">
+        <div class="status-banner warning">
+          ⚠️ <span>Set up your profile first to use autofill.</span>
+        </div>
+        <button class="btn btn-primary btn-block" id="btn-go-profile">
+          👤 Set Up Profile
+        </button>
+      </div>
+
+      <div id="autofill-main">
+        <div class="autofill-hero">
+          <span class="hero-icon">⚡</span>
+          <h2>Auto-Fill This Page</h2>
+          <p>Detect and fill application form fields with your saved profile information.</p>
+        </div>
+
+        <div id="autofill-status" class="hidden"></div>
+
+        <div id="detected-fields-section" class="hidden">
+          <div class="section-title">Detected Fields</div>
+          <div id="detected-fields-list"></div>
+        </div>
+
+        <div class="autofill-btn-group">
+          <button class="btn btn-secondary" id="btn-detect">
+            🔍 Detect Fields
+          </button>
+          <button class="btn btn-primary" id="btn-autofill">
+            ⚡ Fill Now
+          </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-title">
+          Save This Job
+        </div>
+        <div class="card" id="save-job-quick">
+          <div class="form-group">
+            <label>Job Title</label>
+            <input type="text" id="quick-job-title" placeholder="e.g. Software Engineer">
+          </div>
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" id="quick-job-company" placeholder="e.g. Acme Corp">
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="quick-job-status">
+              <option value="saved">💾 Saved</option>
+              <option value="applied" selected>📨 Applied</option>
+              <option value="interview">💬 Interview</option>
+              <option value="offer">🎉 Offer</option>
+              <option value="rejected">❌ Rejected</option>
+            </select>
+          </div>
+          <button class="btn btn-success btn-block" id="btn-save-job-quick">
+            💾 Save Job
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================
+         TAB: TRACKER
+         ============================ -->
+    <div class="tab-panel" id="tab-tracker">
+
+      <!-- Stats -->
+      <div class="tracker-stats">
+        <div class="stat-box applied">
+          <div class="stat-num" id="stat-applied">0</div>
+          <div class="stat-label">Applied</div>
+        </div>
+        <div class="stat-box interview">
+          <div class="stat-num" id="stat-interview">0</div>
+          <div class="stat-label">Interview</div>
+        </div>
+        <div class="stat-box offer">
+          <div class="stat-num" id="stat-offer">0</div>
+          <div class="stat-label">Offer</div>
+        </div>
+        <div class="stat-box rejected">
+          <div class="stat-num" id="stat-rejected">0</div>
+          <div class="stat-label">Rejected</div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="tracker-header">
+        <div class="section-title" style="margin-bottom:0">All Jobs</div>
+        <button class="btn btn-primary btn-sm" id="btn-add-job">
+          + Add Job
+        </button>
+      </div>
+
+      <!-- Filter Chips -->
+      <div class="filter-row">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="saved">Saved</button>
+        <button class="filter-chip" data-filter="applied">Applied</button>
+        <button class="filter-chip" data-filter="interview">Interview</button>
+        <button class="filter-chip" data-filter="offer">Offer</button>
+        <button class="filter-chip" data-filter="rejected">Rejected</button>
+      </div>
+
+      <!-- Search -->
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="job-search" placeholder="Search jobs...">
+      </div>
+
+      <!-- Add Job Form (hidden by default) -->
+      <div class="add-job-form hidden" id="add-job-form">
+        <div class="section-title">Add New Job</div>
+        <div class="form-group">
+          <label>Job Title *</label>
+          <input type="text" id="new-job-title" placeholder="e.g. Senior Frontend Engineer">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Company *</label>
+            <input type="text" id="new-job-company" placeholder="Company name">
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="new-job-status">
+              <option value="saved">💾 Saved</option>
+              <option value="applied" selected>📨 Applied</option>
+              <option value="interview">💬 Interview</option>
+              <option value="offer">🎉 Offer</option>
+              <option value="rejected">❌ Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Job URL</label>
+          <input type="url" id="new-job-url" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="new-job-notes" placeholder="Salary range, notes, interview dates..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-cancel-job">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="btn-save-job">Save Job</button>
+        </div>
+      </div>
+
+      <!-- Job List -->
+      <div class="job-list" id="job-list">
+        <div class="empty-state" id="jobs-empty">
+          <span class="empty-icon">📋</span>
+          <h3>No jobs tracked yet</h3>
+          <p>Add jobs manually or save them while browsing listings.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================
+         TAB: SNIPPETS
+         ============================ -->
+    <div class="tab-panel" id="tab-snippets">
+
+      <div class="section-title">
+        Cover Letter Snippets
+        <button class="btn btn-primary btn-sm" id="btn-add-snippet">+ New</button>
+      </div>
+
+      <!-- Add/Edit Snippet Form -->
+      <div class="add-job-form hidden" id="snippet-form">
+        <div class="section-title" id="snippet-form-title">New Snippet</div>
+        <div class="form-group">
+          <label>Title *</label>
+          <input type="text" id="snippet-title-input" placeholder="e.g. Opening paragraph">
+        </div>
+        <div class="form-group">
+          <label>Tag / Category</label>
+          <input type="text" id="snippet-tag-input" placeholder="e.g. Intro, Skills, Closing">
+        </div>
+        <div class="form-group">
+          <label>Content *</label>
+          <textarea id="snippet-content-input" style="min-height:100px" placeholder="Write your reusable snippet here..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-cancel-snippet">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="btn-save-snippet">Save Snippet</button>
+        </div>
+      </div>
+
+      <div id="snippet-filter-row" class="filter-row">
+        <button class="filter-chip active" data-snip-filter="all">All</button>
+      </div>
+
+      <div class="snippets-list" id="snippets-list">
+        <div class="empty-state" id="snippets-empty">
+          <span class="empty-icon">📝</span>
+          <h3>No snippets yet</h3>
+          <p>Save reusable cover letter paragraphs and intro lines here.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================
+         TAB: PROFILE
+         ============================ -->
+    <div class="tab-panel" id="tab-profile">
+
+      <!-- Resume Upload Card -->
+      <div class="card" id="resume-upload-card">
+        <div class="card-title">📄 Import from Resume</div>
+        <p style="font-size:11px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5;">
+          Upload your resume to auto-populate your profile. Supports PDF, DOCX, and TXT. All parsing happens locally — nothing is sent anywhere.
+        </p>
+        <div class="resume-drop-zone" id="resume-drop-zone">
+          <input type="file" id="resume-file-input" accept=".pdf,.docx,.doc,.txt" style="display:none">
+          <span class="resume-drop-icon">📄</span>
+          <span class="resume-drop-label">Drop your resume here or <span class="resume-drop-link">browse</span></span>
+          <span class="resume-drop-hint">PDF · DOCX · TXT</span>
+        </div>
+        <div id="resume-parse-status" class="hidden"></div>
+        <div id="resume-preview" class="hidden">
+          <div class="resume-preview-header">
+            <span class="resume-preview-title">✅ Fields found — review and apply</span>
+            <button class="btn btn-sm btn-ghost" id="btn-resume-clear">✕ Clear</button>
+          </div>
+          <div id="resume-fields-list"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;">
+            <button class="btn btn-primary btn-sm" style="flex:1" id="btn-resume-apply">⚡ Apply to Profile</button>
+            <button class="btn btn-secondary btn-sm" id="btn-resume-discard">Discard</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-completion">
+        <div class="completion-header">
+          <span class="completion-label">Profile Completeness</span>
+          <span class="completion-percent" id="profile-percent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="profile-progress" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">👤 Personal Info</div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="profile-name" placeholder="Jane Smith">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="profile-email" placeholder="jane@example.com">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="profile-phone" placeholder="+1 555 000 0000">
+        </div>
+        <div class="form-group">
+          <label>Location (City, State)</label>
+          <input type="text" id="profile-location" placeholder="San Francisco, CA">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔗 Online Presence</div>
+        <div class="form-group">
+          <label>LinkedIn URL</label>
+          <input type="url" id="profile-linkedin" placeholder="https://linkedin.com/in/username">
+        </div>
+        <div class="form-group">
+          <label>GitHub URL</label>
+          <input type="url" id="profile-github" placeholder="https://github.com/username">
+        </div>
+        <div class="form-group">
+          <label>Portfolio / Website</label>
+          <input type="url" id="profile-website" placeholder="https://yoursite.com">
+        </div>
+        <div class="form-group">
+          <label>Twitter / X</label>
+          <input type="text" id="profile-twitter" placeholder="@username">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💼 Professional Details</div>
+        <div class="form-group">
+          <label>Current Title / Role</label>
+          <input type="text" id="profile-title" placeholder="e.g. Software Engineer">
+        </div>
+        <div class="form-group">
+          <label>Years of Experience</label>
+          <input type="text" id="profile-experience" placeholder="e.g. 5">
+        </div>
+        <div class="form-group">
+          <label>Key Skills (comma-separated)</label>
+          <input type="text" id="profile-skills" placeholder="JavaScript, React, Node.js...">
+        </div>
+        <div class="form-group">
+          <label>Professional Summary</label>
+          <textarea id="profile-summary" placeholder="Brief professional summary for cover letters and bio fields..."></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; padding-bottom: 16px;">
+        <button class="btn btn-primary" style="flex:1" id="btn-save-profile">
+          💾 Save Profile
+        </button>
+        <button class="btn btn-secondary" id="btn-export-data">
+          📤 Export
+        </button>
+        <button class="btn btn-danger" id="btn-clear-data">
+          🗑️
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="lib/pdf.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
